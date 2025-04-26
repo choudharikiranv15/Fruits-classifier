@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
+import requests
+from io import BytesIO
 from tensorflow.keras.preprocessing import image
 import tensorflow as tf
 import streamlit as st
-import os
-import random
 
 st.set_page_config(
     page_title="Fruit Classifier 🍎🍌🍇",
@@ -35,7 +35,7 @@ fruitMap = {
     29: 'Raspberry', 30: 'Strawberry', 31: 'Tomato', 32: 'Watermelon'
 }
 
-# Fruit details
+# Sample nutrition data, facts, and recipes for all fruits
 fruit_details = {
     'Apple Braeburn': {'Nutrition': {'Calories': 52, 'Vitamin C (%)': 8}, 'Fact': 'Braeburn apples are crisp and have a strong flavor.', 'Recipe': 'Apple Pie or Apple Salad.'},
     'Apple Granny Smith': {'Nutrition': {'Calories': 57, 'Vitamin C (%)': 12}, 'Fact': 'Granny Smith apples are tart and firm.', 'Recipe': 'Apple Crisp or Green Apple Smoothie.'},
@@ -93,24 +93,19 @@ This Fruit Classifier app uses machine learning models to classify fruits based 
 if "history" not in st.session_state:
     st.session_state.history = []
 
-# Option to use demo image
-demo_image_folder = r"D:\kiran\ML\Image-classifier\demo_images"
-
+# Demo image button
 if st.button("🎯 Try Demo Image"):
-    demo_images = [os.path.join(demo_image_folder, img) for img in os.listdir(
-        demo_image_folder) if img.endswith(('jpg', 'jpeg', 'png'))]
-    selected_demo_image = random.choice(demo_images)
-    img = Image.open(selected_demo_image).convert("RGB")
+    demo_url = "https://raw.githubusercontent.com/choudharikiranv15/Fruits-classifier/main/demo_images/demo.jpg"
+    response = requests.get(demo_url)
+    img = Image.open(BytesIO(response.content)).convert("RGB")
 else:
     uploaded_file = st.file_uploader(
-        "Choose an image...", type=["jpg", "png", "jpeg"])
-
+        "Choose an image...", type=["jpg", "png", "jpeg"]
+    )
     if uploaded_file is not None:
         img = Image.open(uploaded_file).convert("RGB")
-    else:
-        img = None
 
-if img:
+if 'img' in locals():
     st.image(img, caption="Uploaded Image", use_container_width=True)
 
     # Preprocess image
