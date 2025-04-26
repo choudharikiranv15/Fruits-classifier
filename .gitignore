@@ -1,0 +1,16 @@
+
+---
+
+# 📄 Final `.gitignore` File
+
+```gitignore
+# Ignore datasets and temporary files
+__pycache__/
+*.pyc
+.DS_Store
+.Datasets/
+model_cnn_saved/
+venv/
+.env
+.idea/
+*.ipynb_checkpoints
