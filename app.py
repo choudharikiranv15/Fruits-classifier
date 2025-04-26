@@ -4,6 +4,8 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 import tensorflow as tf
 import streamlit as st
+import requests
+from io import BytesIO
 
 st.set_page_config(
     page_title="Fruit Classifier 🍎🍌🍇",
@@ -11,7 +13,6 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed",
 )
-
 
 # Load model
 
@@ -34,8 +35,9 @@ fruitMap = {
     29: 'Raspberry', 30: 'Strawberry', 31: 'Tomato', 32: 'Watermelon'
 }
 
-# Sample nutrition data, facts, and recipes for all fruits
+# Fruit details (nutrition, facts, recipes)
 fruit_details = {
+    # (Your entire fruit_details dictionary stays the same here without change)
     'Apple Braeburn': {'Nutrition': {'Calories': 52, 'Vitamin C (%)': 8}, 'Fact': 'Braeburn apples are crisp and have a strong flavor.', 'Recipe': 'Apple Pie or Apple Salad.'},
     'Apple Granny Smith': {'Nutrition': {'Calories': 57, 'Vitamin C (%)': 12}, 'Fact': 'Granny Smith apples are tart and firm.', 'Recipe': 'Apple Crisp or Green Apple Smoothie.'},
     'Apricot': {'Nutrition': {'Calories': 48, 'Vitamin C (%)': 10}, 'Fact': 'Apricots are rich in antioxidants and Vitamin A.', 'Recipe': 'Apricot Jam or Apricot Salad.'},
@@ -92,59 +94,59 @@ This Fruit Classifier app uses machine learning models to classify fruits based 
 if "history" not in st.session_state:
     st.session_state.history = []
 
-uploaded_file = st.file_uploader(
-    "Choose an image...", type=["jpg", "png", "jpeg"])
+# Upload or try demo
+st.subheader("Upload your own image or try a demo:")
 
-if uploaded_file is not None:
-    img = Image.open(uploaded_file).convert("RGB")
+img = None
+
+if st.button("🎯 Try Demo Image"):
+    demo_url = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/demo_images/demo_fruit.jpg"
+    response = requests.get(demo_url)
+    img = Image.open(BytesIO(response.content)).convert("RGB")
+else:
+    uploaded_file = st.file_uploader(
+        "Choose an image...", type=["jpg", "png", "jpeg"])
+    if uploaded_file is not None:
+        img = Image.open(uploaded_file).convert("RGB")
+
+if img is not None:
     st.image(img, caption="Uploaded Image", use_container_width=True)
 
-    # Preprocess image
-    img = img.resize((100, 100))
-    img_array = image.img_to_array(img) / 255.0
+    img_resized = img.resize((100, 100))
+    img_array = image.img_to_array(img_resized) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Prediction
     prediction = model.predict(img_array)[0]
     top_indices = prediction.argsort()[-5:][::-1]
     top_labels = [fruitMap[i] for i in top_indices]
     top_scores = [prediction[i] * 100 for i in top_indices]
 
-    # Save to prediction history
     st.session_state.history.append(f"{top_labels[0]} ({top_scores[0]:.2f}%)")
 
-    # Main Prediction
     st.subheader("Prediction:")
     st.success(f"{top_labels[0]} ({top_scores[0]:.2f}% confidence)")
 
-    # Warn if model is unsure
     if top_scores[0] < 60:
         st.warning(
             "⚠️ Model confidence is low. Try another image or different lighting.")
 
-    # Nutrition Info
-    if top_labels[0] in fruit_details and 'Nutrition' in fruit_details[top_labels[0]]:
+    if top_labels[0] in fruit_details:
         st.subheader("🍽️ Nutritional Info")
         st.json(fruit_details[top_labels[0]]['Nutrition'])
 
-    # Recipe
-    if top_labels[0] in fruit_details and 'Recipe' in fruit_details[top_labels[0]]:
         st.subheader("🍳 Recipe Suggestion")
         st.write(fruit_details[top_labels[0]]['Recipe'])
 
-    # Fun Facts
-    if top_labels[0] in fruit_details and 'Fact' in fruit_details[top_labels[0]]:
         st.subheader("🧠 Fun Fact")
         st.write(fruit_details[top_labels[0]]['Fact'])
 
-    # Bar chart of top 5 predictions
     fig, ax = plt.subplots()
     ax.barh(top_labels, top_scores, color='skyblue')
     ax.set_xlabel('Confidence (%)')
     ax.set_title('Top 5 Predicted Fruits')
     st.pyplot(fig)
 
-# History Panel
+# Sidebar - Prediction History
 st.sidebar.title("🕓 Prediction History")
 for item in reversed(st.session_state.history[-5:]):
     st.sidebar.write(item)
