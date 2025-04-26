@@ -5,7 +5,13 @@ from tensorflow.keras.preprocessing import image
 import tensorflow as tf
 import streamlit as st
 
-st.set_page_config(page_title="🍉 Fruit Classifier", layout="centered")
+st.set_page_config(
+    page_title="Fruit Classifier 🍎🍌🍇",
+    page_icon="🍓",
+    layout="centered",
+    initial_sidebar_state="collapsed",
+)
+
 
 # Load model
 
@@ -66,7 +72,7 @@ fruit_details = {
 }
 
 # Team members
-team_members = ["Alice Johnson", "Bob Smith", "Charlie Davis", "David Lee"]
+team_members = ["Chinmayi", "Bob Smith", "Charlie Davis", "David Lee"]
 
 st.title("🍓 Fruit Classifier")
 
@@ -76,7 +82,7 @@ st.markdown("""
 This Fruit Classifier app uses machine learning models to classify fruits based on uploaded images. It provides information about the fruit, including fun facts, nutrition details, and recipe suggestions for each fruit. 
 
 ### Team Members
-- Alice Johnson
+- Chinmayi
 - Bob Smith
 - Charlie Davis
 - David Lee
