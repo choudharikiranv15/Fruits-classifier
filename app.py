@@ -73,7 +73,7 @@ fruit_details = {
 }
 
 # Team members
-team_members = ["Chinmayi", "Bob Smith", "Charlie Davis", "David Lee"]
+team_members = ["Chinmayi", "NoothanGowda", "Jhanvi", "Ananya Gowda"]
 
 st.title("🍓 Fruit Classifier")
 
@@ -84,9 +84,9 @@ This Fruit Classifier app uses machine learning models to classify fruits based 
 
 ### Team Members
 - Chinmayi
-- Bob Smith
-- Charlie Davis
-- David Lee
+- NoothanGowda
+- Jhanvi 
+- Ananya Gowda
 """)
 
 # Session state for prediction history
