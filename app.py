@@ -72,8 +72,6 @@ fruit_details = {
     'Watermelon': {'Nutrition': {'Calories': 30, 'Vitamin C (%)': 17}, 'Fact': 'Watermelon is mostly water and very hydrating.', 'Recipe': 'Watermelon Salad or Smoothie.'}
 }
 
-# Team members
-team_members = ["Ananya Gowda", "Chinmayi",  "Jhanvi", "NoothanGowda"]
 
 st.title("🍓 Fruit Classifier")
 
@@ -82,11 +80,6 @@ st.markdown("""
 ### Project Overview
 This Fruit Classifier app uses machine learning models to classify fruits based on uploaded images. It provides information about the fruit, including fun facts, nutrition details, and recipe suggestions for each fruit. 
 
-### Team Members
-- Ananya Gowda
-- Chinmayi
-- Jhanvi 
-- NoothanGowda
 """)
 
 # Session state for prediction history
