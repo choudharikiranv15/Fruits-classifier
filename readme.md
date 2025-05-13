@@ -69,14 +69,6 @@ fruit-classifier/
 
 4. **Upload a fruit image** and see the magic! ✨
 
----
-
-## 🢑 Team Members
-
-- Alice Johnson
-- Bob Smith
-- Charlie Davis
-- David Lee
 
 ---
 
