@@ -93,4 +93,4 @@ fruit-classifier/
 
 ---
 
-> _Built with ❤️ by an awesome team!_
+> _Built with ❤️ by Kiran Choudhari_
