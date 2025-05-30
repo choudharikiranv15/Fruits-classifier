@@ -7,6 +7,8 @@ This is a fun and interactive machine learning project built using **TensorFlow*
 Upload any fruit image, and the app will predict the type of fruit along with **fun facts**, **nutrition info**, and **recipe suggestions**! 🍎🍌🍇
 
 ---
+Live Demo
+https://fruits-classifier-project.streamlit.app/
 
 ## 📸 Features
 
